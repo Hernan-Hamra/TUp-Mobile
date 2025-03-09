@@ -2,9 +2,9 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Notification from "../screens/others/Notification";
-import Settings from "../screens/others/Settings";
-import Progress from "../screens/others/Progress";
+import Notification from "../../screens/others/Notification";
+import Settings from "../../screens/others/Settings";
+import Progress from "../../screens/others/Progress";
 
 const Stack = createStackNavigator();
 

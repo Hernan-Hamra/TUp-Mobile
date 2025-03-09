@@ -2,9 +2,9 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import CreateExercise from "../screens/management/create-exercise";
-import CreatePlan from "../screens/management/create-plan";
-import EditPlan from "../screens/management/edit-plan";
+import CreateExercise from "../../screens/management/create-exercise";
+import CreatePlan from "../../screens/management/create-plan";
+import EditPlan from "../../screens/management/edit-plan";
 
 const Stack = createStackNavigator();
 

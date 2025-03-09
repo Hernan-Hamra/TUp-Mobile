@@ -1,21 +1,34 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Explore from "../screens/main/Explore";
-import Home from "../screens/main/Home";
-import Profile from "../screens/main/Profile";
-import Settings from "../screens/others/Settings";
+// app/navigation/rootNavigation/RootNavigator.tsx
 
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; // O DrawerNavigator si prefieres un menú lateral
+import AuthStack from "./stackNavigation/AuthStack"; // Stack de autenticación
+import MainStack from "./stackNavigation/MainStack"; // Principal stack
+import ManagementStack from "./stackNavigation/ManagementStack";
+import OthersStack from "./stackNavigation/OtherStacks";
+import TrainingStack from "./stackNavigation/TrainingStack";
+
+// Crear el Tab Navigator
 const Tab = createBottomTabNavigator();
 
-const Tabs = () => {
+const RootNavigator = () => {
+  const userIsAuthenticated = false; // Cambiar esto dependiendo de la lógica de autenticación
+
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Explore" component={Explore} />
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="Settings" component={Settings} />
-    </Tab.Navigator>
+    <NavigationContainer>
+      {userIsAuthenticated ? (
+        <Tab.Navigator>
+          <Tab.Screen name="Main" component={MainStack} />
+          <Tab.Screen name="Management" component={ManagementStack} />
+          <Tab.Screen name="Others" component={OthersStack} />
+          <Tab.Screen name="Training" component={TrainingStack} />
+        </Tab.Navigator>
+      ) : (
+        <AuthStack />
+      )}
+    </NavigationContainer>
   );
 };
 
-export default Tabs;
+export default RootNavigator;

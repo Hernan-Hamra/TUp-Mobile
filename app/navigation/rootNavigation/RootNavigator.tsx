@@ -1,26 +1,33 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import Login from "../../screens/auth/Login";
-import ForgotPass from "../../screens/auth/ForgotPass";
-import Register from "../../screens/auth/Register";
-import Tabs from "../Tabs"; // Importamos las pestañas
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AuthStack from "../stackNavigation/AuthStack";
+import MainStack from "../stackNavigation/MainStack";
+import ManagementStack from "../stackNavigation/ManagementStack";
+import OthersStack from "../stackNavigation/OtherStacks";
+import TrainingStack from "../stackNavigation/TrainingStack";
+import Layout from "../../_layout"; // Importa el Layout
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const RootNavigator = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Login"
-      screenOptions={{ headerShown: false }}
-    >
-      {/* Navegación de autenticación */}
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="ForgotPass" component={ForgotPass} />
-      <Stack.Screen name="Register" component={Register} />
+  const userIsAuthenticated = false; // Cambiar esto dependiendo de la lógica de autenticación
 
-      {/* Navegación principal (pestañas) */}
-      <Stack.Screen name="Main" component={Tabs} />
-    </Stack.Navigator>
+  return (
+    <NavigationContainer>
+      {userIsAuthenticated ? (
+        <Layout>
+          <Tab.Navigator screenOptions={{ headerShown: false }}>
+            <Tab.Screen name="Main" component={MainStack} />
+            <Tab.Screen name="Management" component={ManagementStack} />
+            <Tab.Screen name="Others" component={OthersStack} />
+            <Tab.Screen name="Training" component={TrainingStack} />
+          </Tab.Navigator>
+        </Layout>
+      ) : (
+        <AuthStack />
+      )}
+    </NavigationContainer>
   );
 };
 
