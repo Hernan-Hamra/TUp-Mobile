@@ -3,7 +3,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "../../screens/auth/Login";
-
 import Register from "../../screens/auth/Register";
 import ForgotPass from "../../screens/auth/ForgotPass";
 

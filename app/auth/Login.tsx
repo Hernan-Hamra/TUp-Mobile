@@ -10,10 +10,8 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store"; // Almacenamiento seguro
-import { useNavigation } from "@react-navigation/native";
-import * as Google from "expo-auth-session/providers/google";
+import { useRouter } from "expo-router"; // Hook para la navegación
 
 // Esquema de validación con Yup
 const LoginSchema = Yup.object().shape({
@@ -26,13 +24,8 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const navigation = useNavigation(); // Hook para manejar la navegación entre pantallas
-  const [loading, setLoading] = useState(false); // Estado para manejar el indicador de carga
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: "TU_GOOGLE_CLIENT_ID",
-    iosClientId: "TU_IOS_CLIENT_ID",
-    androidClientId: "TU_ANDROID_CLIENT_ID",
-  });
+  const router = useRouter(); // Usamos useRouter para la navegación en expo-router
+  const [loading, setLoading] = useState(false);
 
   // Manejar el inicio de sesión con credenciales
   const handleLogin = async (values) => {
@@ -50,7 +43,7 @@ const Login = () => {
       );
 
       Alert.alert("Éxito", "Inicio de sesión exitoso");
-      navigation.navigate("Home");
+      router.push("/home"); // Navegamos a la pantalla de home
     } catch (error) {
       Alert.alert(
         "Error",
@@ -58,33 +51,6 @@ const Login = () => {
       );
     }
     setLoading(false);
-  };
-
-  // Manejar inicio de sesión con Google
-  useEffect(() => {
-    if (response?.type === "success") {
-      const { authentication } = response;
-      handleGoogleLogin(authentication.accessToken);
-    }
-  }, [response]);
-
-  const handleGoogleLogin = async (googleToken) => {
-    try {
-      const response = await axios.post("https://tu-api.com/google-auth", {
-        token: googleToken,
-      });
-
-      await SecureStore.setItemAsync("accessToken", response.data.accessToken);
-      await SecureStore.setItemAsync(
-        "refreshToken",
-        response.data.refreshToken
-      );
-
-      Alert.alert("Éxito", "Inicio de sesión con Google exitoso");
-      navigation.navigate("Home");
-    } catch (error) {
-      Alert.alert("Error", "No se pudo autenticar con Google");
-    }
   };
 
   return (
@@ -147,19 +113,6 @@ const Login = () => {
               ) : (
                 <Text style={{ color: "white" }}>Ingresar</Text>
               )}
-            </TouchableOpacity>
-
-            {/* Botón de Google */}
-            <TouchableOpacity
-              onPress={() => promptAsync()}
-              style={{
-                backgroundColor: "red",
-                padding: 10,
-                marginTop: 20,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ color: "white" }}>Ingresar con Google</Text>
             </TouchableOpacity>
           </>
         )}

@@ -11,7 +11,7 @@ import Layout from "../../_layout"; // Importa el Layout
 const Tab = createBottomTabNavigator();
 
 const RootNavigator = () => {
-  const userIsAuthenticated = false; // Cambiar esto dependiendo de la lógica de autenticación
+  const userIsAuthenticated = true; // Cambiar esto dependiendo de la lógica de autenticación
 
   return (
     <NavigationContainer>
